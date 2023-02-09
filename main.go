@@ -11,6 +11,13 @@ import (
 
 var apiKeyFlag = flag.String("key", "", "API Key for IMDB API")
 
+type Movie struct {
+	Items []struct {
+		Title string `json:"title"`
+		Image string `json:"image"`
+	} `json:"items"`
+}
+
 func main() {
 	flag.Parse()
 	apiKey := *apiKeyFlag
