@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/json"
+	"errors"
 	"flag"
 	"fmt"
 	"io"
@@ -39,9 +41,24 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println(convertBytesToString(body))
+	movies, err := getMoviesTitleAndImage(body)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	for _, movie := range movies.Items {
+		fmt.Println("Title:", movie.Title)
+		fmt.Println("Image:", movie.Image)
+		fmt.Println()
+	}
 }
 
-func convertBytesToString(data []byte) string {
-	return string(data[:])
+func getMoviesTitleAndImage(data []byte) (Movie, error) {
+	var movies Movie
+	if err := json.Unmarshal(data, &movies); err != nil {
+		fmt.Println(err)
+		return Movie{}, errors.New("unable to unmarshal data")
+	}
+	return movies, nil
 }
