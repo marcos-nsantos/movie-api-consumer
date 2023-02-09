@@ -47,11 +47,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	for _, movie := range movies.Items {
-		fmt.Println("Title:", movie.Title)
-		fmt.Println("Image:", movie.Image)
-		fmt.Println()
-	}
+	showMovies(movies)
 }
 
 func getMoviesTitleAndImage(data []byte) (Movie, error) {
@@ -61,4 +57,12 @@ func getMoviesTitleAndImage(data []byte) (Movie, error) {
 		return Movie{}, errors.New("unable to unmarshal data")
 	}
 	return movies, nil
+}
+
+func showMovies(movies Movie) {
+	for _, movie := range movies.Items {
+		fmt.Println("Title:", movie.Title)
+		fmt.Println("Image:", movie.Image)
+		fmt.Println()
+	}
 }
